@@ -181,6 +181,13 @@ export class Connection {
     const msgBody = new Uint8Array(raw_message_length >= 4 ? raw_message_length - 4 : 0);
     await this.#bufReader.readFull(msgBody);
 
+    if(raw_message_length <= 4){
+      console.log({
+        msgType,
+        raw_message_length,
+      })
+    }
+
     return new Message(msgType, raw_message_length, msgBody);
   }
 
