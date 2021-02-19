@@ -177,11 +177,11 @@ export class Connection {
     const header = new Uint8Array(5);
     await this.#bufReader.readFull(header);
     const msgType = decoder.decode(header.slice(0, 1));
-    const msgLength = readUInt32BE(header, 1) - 4;
-    const msgBody = new Uint8Array(msgLength);
+    const raw_message_length = readUInt32BE(header, 1);
+    const msgBody = new Uint8Array(raw_message_length >= 4 ? raw_message_length - 4 : 0);
     await this.#bufReader.readFull(msgBody);
 
-    return new Message(msgType, msgLength, msgBody);
+    return new Message(msgType, raw_message_length, msgBody);
   }
 
   private async serverAcceptsTLS(): Promise<boolean> {
