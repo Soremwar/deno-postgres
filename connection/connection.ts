@@ -178,8 +178,6 @@ export class Connection {
     await this.#bufReader.readFull(header);
     const msgType = decoder.decode(header.slice(0, 1));
     const raw_message_length = readUInt32BE(header, 1);
-    const msgBody = new Uint8Array(raw_message_length >= 4 ? raw_message_length - 4 : 0);
-    await this.#bufReader.readFull(msgBody);
 
     if(raw_message_length <= 4){
       console.log({
@@ -187,6 +185,9 @@ export class Connection {
         raw_message_length,
       })
     }
+    
+    const msgBody = new Uint8Array(raw_message_length >= 4 ? raw_message_length - 4 : 0);
+    await this.#bufReader.readFull(msgBody);
 
     return new Message(msgType, raw_message_length, msgBody);
   }
