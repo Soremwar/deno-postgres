@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres
+    build: ./docker/postgres
     hostname: test.postgres.com
     environment:
       - POSTGRES_DB=postgres
@@ -12,7 +12,7 @@ services:
       - ./docker/postgres/data/:/var/lib/postgresql/host/
       - ./docker/postgres/init/:/docker-entrypoint-initdb.d/
   postgres_scram:
-    image: postgres
+    build: ./docker/postgres_scram
     hostname: test.postgres_scram.com
     environment:
       - POSTGRES_DB=postgres

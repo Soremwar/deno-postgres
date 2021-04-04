@@ -7,8 +7,10 @@
     "port": 5432,
     "users": {
       "clear": "clear",
+      "clear_tls": "clear_tls",
       "main": "postgres",
-      "md5": "md5"
+      "md5": "md5",
+      "md5_tls": "md5_tls"
     }
   },
   "postgres_scram": {
@@ -18,7 +20,8 @@
     "password": "postgres",
     "port": 5432,
     "users": {
-      "scram": "scram"
+      "scram": "scram",
+      "scram_tls": "scram_tls"
     }
   }
 }

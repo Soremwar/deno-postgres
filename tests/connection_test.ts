@@ -1,21 +1,18 @@
 import { assertThrowsAsync } from "./test_deps.ts";
 import {
   getClearConfiguration,
+  getClearTlsConfiguration,
   getMainConfiguration,
   getMd5Configuration,
+  getMd5TlsConfiguration,
   getScramSha256Configuration,
+  getScramSha256TlsConfiguration,
 } from "./config.ts";
 import { Client, PostgresError } from "../mod.ts";
 
 function getRandomString() {
   return Math.random().toString(36).substring(7);
 }
-
-Deno.test("Clear password authentication (no tls)", async () => {
-  const client = new Client(getClearConfiguration());
-  await client.connect();
-  await client.end();
-});
 
 Deno.test("Handles bad authentication correctly", async function () {
   const badConnectionData = getMainConfiguration();
@@ -34,14 +31,38 @@ Deno.test("Handles bad authentication correctly", async function () {
     });
 });
 
+Deno.test("Clear password authentication (no tls)", async () => {
+  const client = new Client(getClearConfiguration());
+  await client.connect();
+  await client.end();
+});
+
+Deno.test("Clear password authentication (tls)", async () => {
+  const client = new Client(getClearTlsConfiguration());
+  await client.connect();
+  await client.end();
+});
+
 Deno.test("MD5 authentication (no tls)", async () => {
   const client = new Client(getMd5Configuration());
   await client.connect();
   await client.end();
 });
 
+Deno.test("MD5 authentication (tls)", async () => {
+  const client = new Client(getMd5TlsConfiguration());
+  await client.connect();
+  await client.end();
+});
+
 Deno.test("SCRAM-SHA-256 authentication (no tls)", async () => {
   const client = new Client(getScramSha256Configuration());
+  await client.connect();
+  await client.end();
+});
+
+Deno.test("SCRAM-SHA-256 authentication (tls)", async () => {
+  const client = new Client(getScramSha256TlsConfiguration());
   await client.connect();
   await client.end();
 });
